@@ -1,0 +1,48 @@
+@use 'functions' as *;
+
+@mixin fs-type($family, $size, $weight, $line) {
+  font-family: $family;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line;
+}
+
+@mixin fs-h1 {
+  @include fs-type(var(--fs-font-display), var(--fs-text-h1-size), 400, var(--fs-text-h1-line));
+}
+
+@mixin fs-h2 {
+  @include fs-type(var(--fs-font-display), var(--fs-text-h2-size), 400, var(--fs-text-h2-line));
+}
+
+@mixin fs-h3 {
+  @include fs-type(var(--fs-font-display), var(--fs-text-h3-size), 400, var(--fs-text-h3-line));
+}
+
+@mixin fs-h4 {
+  @include fs-type(var(--fs-font-sans), var(--fs-text-h4-size), 700, 1.25);
+}
+
+@mixin fs-text {
+  @include fs-type(var(--fs-font-sans), var(--fs-text-body-size), 400, var(--fs-text-body-line));
+}
+
+@mixin fs-text-md {
+  @include fs-type(var(--fs-font-sans), var(--fs-text-md-size), 500, 1.4);
+}
+
+@mixin fs-text-sm {
+  @include fs-type(var(--fs-font-sans), var(--fs-text-sm-size), 500, 1.35);
+}
+
+@mixin fs-text-xs {
+  @include fs-type(var(--fs-font-sans), var(--fs-text-xs-size), 500, 1.3);
+}
+
+@mixin fs-text-lg {
+  @include fs-type(var(--fs-font-sans), var(--fs-text-lg-size), 400, 1.45);
+}
+
+@mixin fs-mono {
+  @include fs-type(var(--fs-font-mono), rem(14), 400, 1.5);
+}

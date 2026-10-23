@@ -1,0 +1,29 @@
+/*
+ * Шрифты: Actay — заголовки, Roboto — текст (Google Fonts подключается в `nuxt.config.ts`).
+ * Файлы Actay лежат в `app/assets/fonts`, метрики fallback выровнены под Arial,
+ * чтобы до загрузки webfont заголовки не прыгали на другую строку.
+ */
+@mixin font-face($family, $file, $weight, $style: normal) {
+  @font-face {
+    font-family: $family;
+    font-weight: $weight;
+    font-style: $style;
+    src:
+      url('../../fonts/#{$file}.woff2') format('woff2'),
+      url('../../fonts/#{$file}.woff') format('woff');
+    font-display: swap;
+  }
+}
+
+@include font-face('Actay', 'Actay-Regular', 400);
+@include font-face('Actay', 'Actay-RegularItalic', 400, italic);
+@include font-face('Actay Wide', 'ActayWide-Bold', 700);
+@include font-face('Actay Wide', 'ActayWide-BoldItalic', 700, italic);
+@include font-face('Actay Condensed', 'ActayCondensed-Thin', 100);
+@include font-face('Actay Condensed', 'ActayCondensed-ThinItalic', 100, italic);
+
+@font-face {
+  font-family: 'Actay Fallback';
+  src: local('Arial');
+  size-adjust: 110.7%;
+}

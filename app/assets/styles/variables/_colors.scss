@@ -1,0 +1,33 @@
+/* Палитра курса. База — дизайн-система SC_Shelkovskiy; добавлены только служебные токены. */
+:root {
+  --fs-color-black: #010101;
+  --fs-color-beige: #d3c59f;
+  --fs-color-gray: #767676;
+  --fs-color-light: #f3f2ed;
+  --fs-color-light-hover: #e9e8e3;
+  --fs-color-ornament: #fbfaf9;
+  --fs-color-white: #ffffff;
+  --fs-color-error: #e9363a;
+
+  /* Акценты арок: розовый, оранжевый, бирюзовый */
+  --fs-color-pink: #ff71db;
+  --fs-color-orange: #fea95a;
+  --fs-color-cyan: #00bcd1;
+  --fs-color-coral: #fe3f43;
+  --fs-color-green: #00b576;
+
+  /* Служебные токены: линии, поверхности, код */
+  --fs-color-line: #e5e2d9;
+  --fs-color-surface: var(--fs-color-light);
+  --fs-color-surface-muted: var(--fs-color-ornament);
+  --fs-color-code-bg: #0d1117;
+  --fs-color-code-text: #e6edf3;
+
+  /* Статусы практики: сделано / частично / нет */
+  --fs-color-status-done: #0b7a52;
+  --fs-color-status-partial: #a8611b;
+  --fs-color-status-missing: #767676;
+
+  --fs-color-bg: var(--fs-color-white);
+  --fs-color-text: var(--fs-color-black);
+}

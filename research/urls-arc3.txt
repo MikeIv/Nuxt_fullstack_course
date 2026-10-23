@@ -1,0 +1,50 @@
+# URL, которые реально открывались при работе над Аркой 3 (уроки 09–12).
+# Порядок: сначала официальная дока Nuxt, затем Nitro 2 в репозитории, затем служебные страницы.
+
+## nuxt.com (через mcp__nuxt__get-documentation-page)
+https://nuxt.com/docs/4.x/guide/concepts/rendering
+https://nuxt.com/docs/4.x/api/commands/task
+https://nuxt.com/docs/4.x/guide/going-further/runtime-config
+https://nuxt.com/docs/4.x/guide/going-further/server-imports
+https://nuxt.com/docs/4.x/directory-structure/output
+https://nuxt.com/docs/4.x/directory-structure/server
+https://nuxt.com/docs/4.x/directory-structure/public
+https://nuxt.com/docs/4.x/directory-structure/app/app-config
+https://nuxt.com/docs/4.x/getting-started/deployment
+https://nuxt.com/docs/4.x/getting-started/data-fetching
+https://nuxt.com/docs/4.x/api/composables/use-fetch
+https://nuxt.com/docs/4.x/api/composables/use-async-data
+
+## Nitro 2 (дока из репозитория, тег v2.13.5)
+https://raw.githubusercontent.com/nitrojs/nitro/v2.13.5/docs/1.guide/6.cache.md
+https://raw.githubusercontent.com/nitrojs/nitro/v2.13.5/docs/1.guide/4.storage.md
+https://raw.githubusercontent.com/nitrojs/nitro/v2.13.5/docs/1.guide/10.tasks.md
+https://raw.githubusercontent.com/nitrojs/nitro/v2.13.5/docs/1.guide/8.assets.md
+https://raw.githubusercontent.com/nitrojs/nitro/v2.13.5/docs/1.guide/3.websocket.md
+https://raw.githubusercontent.com/nitrojs/nitro/v2.13.5/docs/2.deploy/0.index.md
+https://raw.githubusercontent.com/nitrojs/nitro/v2.13.5/docs/2.deploy/1.workers.md
+
+## Nitro 3 (сайт отдаёт документацию новой версии, имена API другие)
+https://nitro.build/raw/docs/cache.md
+https://nitro.build/llms.txt
+
+## Служебные страницы (навигация по документации и список драйверов)
+https://api.github.com/repos/nitrojs/nitro/tags?per_page=100
+https://api.github.com/repos/nitrojs/nitro/contents/docs?ref=v2.13.5
+https://api.github.com/repos/nitrojs/nitro/contents/docs/1.guide?ref=v2.13.5
+https://api.github.com/repos/nitrojs/nitro/contents/docs/2.deploy?ref=v2.13.5
+https://api.github.com/repos/unjs/unstorage/contents/src/drivers
+https://raw.githubusercontent.com/unjs/unstorage/main/README.md
+
+## Пробовал, но не открылось (в источники не ставил)
+# 404: https://nitro.build/guide/caching (дока переехала на /docs/cache)
+# 404: https://v2.nitro.build/guide/caching
+# 404: https://v2.nitro.build/docs/cache
+# таймаут: https://nitro.build/docs/storage
+# таймаут: https://nitro.build/docs/tasks
+# таймаут: https://nitro.build/docs
+# таймаут: https://v2.nitro.build/guide
+# таймаут: https://v2.nitro.build/guide/cache
+# таймаут: https://v2.nitro.build/guide/storage
+# таймаут: https://unstorage.unjs.io/drivers
+# 404: https://nitro.build/sitemap.md (сервер отдал /raw/sitemap.md с тем же 404)

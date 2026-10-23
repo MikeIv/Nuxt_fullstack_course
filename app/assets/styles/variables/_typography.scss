@@ -1,0 +1,46 @@
+@use '../tools/functions' as *;
+@use '../tools/mixins' as *;
+
+/* Типографика: Actay — заголовки, Roboto — текст. Шкала из SC_Shelkovskiy, подогнана под чтение. */
+:root {
+  --fs-font-display: 'Actay', 'Actay Fallback', sans-serif;
+  --fs-font-display-wide: 'Actay Wide', sans-serif;
+  --fs-font-sans: 'Roboto', system-ui, sans-serif;
+  --fs-font-mono: 'JetBrains Mono', 'SFMono-Regular', consolas, monospace;
+
+  --fs-text-h1-size: #{rem(34)};
+  --fs-text-h1-line: 1.05;
+  --fs-text-h2-size: #{rem(26)};
+  --fs-text-h2-line: 1.1;
+  --fs-text-h3-size: #{rem(20)};
+  --fs-text-h3-line: 1.25;
+  --fs-text-h4-size: #{rem(18)};
+  --fs-text-body-size: #{rem(16)};
+  --fs-text-body-line: 1.45;
+  --fs-text-read-line: 1.65;
+  --fs-text-md-size: #{rem(16)};
+  --fs-text-sm-size: #{rem(13)};
+  --fs-text-xs-size: #{rem(12)};
+  --fs-text-lg-size: #{rem(18)};
+
+  @include from-tablet {
+    --fs-text-h1-size: #{rem(46)};
+    --fs-text-h2-size: #{rem(34)};
+    --fs-text-h3-size: #{rem(22)};
+    --fs-text-body-size: #{rem(17)};
+    --fs-text-md-size: #{rem(17)};
+    --fs-text-lg-size: #{rem(19)};
+  }
+
+  @include from-desktop {
+    --fs-text-h1-size: #{rem(68)};
+    --fs-text-h2-size: #{rem(44)};
+    --fs-text-h3-size: #{rem(26)};
+    --fs-text-h4-size: #{rem(22)};
+    --fs-text-body-size: #{rem(18)};
+    --fs-text-md-size: #{rem(18)};
+    --fs-text-sm-size: #{rem(14)};
+    --fs-text-xs-size: #{rem(13)};
+    --fs-text-lg-size: #{rem(20)};
+  }
+}

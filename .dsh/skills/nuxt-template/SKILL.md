@@ -1,0 +1,40 @@
+---
+name: nuxt-template
+description: Nuxt 4.5 / Vue 3 — TS, SFC, SCSS, mobile-first, линты. Применять при работе с файлами: app/**/*.{ts,vue,scss},server/**/*.{ts,vue,scss},shared/**/*.{ts,vue,scss}.
+---
+
+<!-- Сгенерировано из .cursor/rules/nuxt-template.mdc скриптом .cursor/sync-rules.mjs -->
+
+# Nuxt / Vue
+
+## TypeScript
+
+Без `any` (`unknown` + сужение). Strict Nuxt. `catch` без ошибки — `catch {}` или `_`.
+
+## Nuxt 4.5 (`srcDir: app/`, SSR включён)
+
+`app/` · `server/` · `shared/types`, `shared/utils`. SFC: `useFetch` / `useAsyncData`. API: **`useApi()`** / **`useApiFetch()`**; Nitro: **`serverApi(event?)`**. Base: **`runtimeConfig.public.apiBase`**. `$fetch` — только без общего baseURL.
+
+## Vue 3
+
+Composition API, `<script setup lang="ts">`. Типизировать props/emits. Без ручного импорта автоимпортов.
+
+**SFC:** script → template → `style module lang="scss"` (стиль не добавлять, если пустой). CSS Modules: `$style`. Не `scoped`, если нет отдельного соглашения. `vue/block-order` в `eslint.config.mjs`.
+
+## Стили
+
+Токены `app/assets/styles/` (`--fs-*`). Без `!important` (кроме виджетов). Отступы: `--fs-space-*`. Sass: `@use` / `@forward`, `@if` / `@else`.
+
+**Mobile-first:** база без `@media` (от 0). Расширения — миксины `from-mobile` (576) / `from-tablet` (768) / `from-desktop` (1024). В SFC: `@use 'tools' as *;` (`loadPaths` → `app/assets/styles`). Не писать `max-width` / desktop-first и сырой `@media` без задачи. Доп. брейкпоинты продукта (напр. `from-wide`) — только если есть в `tools/_mixins.scss` и в `90`.
+
+## Макет
+
+Если в `90` указан Figma — вёрстка поэтапно, один кадр за волну. Адаптировать под токены и mobile-first. Чтение кадра: Cursor — MCP, DS Harness — REST (`09-figma-rest`). Лимиты — `07` / `05`.
+
+## a11y
+
+Семантика, заголовки, `button` / `a` по назначению, `aria-*` при нужде.
+
+## Линтинг
+
+ESLint + Prettier (форматируется всё, включая `*.vue`). Stylelint: SFC и `*.scss` / `*.css`. Husky: pre-commit (lint-staged, `format:check`, проверка правил) + pre-push (`lint:all`).

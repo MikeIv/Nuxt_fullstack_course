@@ -1,0 +1,2 @@
+# Single line endings everywhere: prettier endOfLine=lf, CI runs on Linux
+* text=auto eol=lf

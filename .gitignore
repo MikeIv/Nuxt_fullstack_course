@@ -1,0 +1,50 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+.pnpm-store
+
+# Test / coverage
+coverage
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# IDE
+.vscode
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Agent: session files (templates and PROJECT.md stay tracked)
+.planning/brief.md
+.planning/plan.md
+.planning/state.md
+.planning/figma/
+
+# Agent: local DS Harness state, generated skills stay tracked
+.dsh/*
+!.dsh/skills/
+
+# Agent: local audit reports
+docs/audit-*.md
+
+# Локальные отчёты диагностики прав Windows (скрипт песочницы DSH)
+.acl-reports/
+
+# Генерируется из sources.json скриптом scripts/sync-sources.mjs (postinstall / dev / build)
+shared/data/sources.generated.ts

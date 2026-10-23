@@ -1,0 +1,24 @@
+@use '../tools/functions' as *;
+@use '../tools/mixins' as *;
+
+/* Шкала отступов, шаг 8px. */
+:root {
+  --fs-space-0: 0;
+  --fs-space-1: #{rem(8)};
+  --fs-space-2: #{rem(16)};
+  --fs-space-3: #{rem(24)};
+  --fs-space-4: #{rem(32)};
+  --fs-space-5: #{rem(40)};
+  --fs-space-6: #{rem(48)};
+  --fs-space-7: #{rem(64)};
+  --fs-space-8: #{rem(80)};
+
+  /* Высота шапки и вертикальный ритм секций */
+  --fs-header-height: #{rem(72)};
+  --fs-space-section: #{rem(64)};
+
+  @include from-desktop {
+    --fs-header-height: #{rem(88)};
+    --fs-space-section: #{rem(112)};
+  }
+}

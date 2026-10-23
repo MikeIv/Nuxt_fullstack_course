@@ -1,0 +1,34 @@
+---
+description: Гигиена контекста — узкий input, handoff через .planning/
+alwaysApply: false
+---
+
+# Context hygiene
+
+## Не раздувать input
+
+- Один фокус — текущая волна; не читать весь репо «на всякий случай»
+- Код — только релевантные файлы; эталоны — таблица в `90`
+- Широкий поиск (Cursor: Task/Explore; DS Harness: `subagent`) — отдельно от точечного grep/read
+- Не дублировать diff в чат — итог в `state.md`
+
+## Handoff между сессиями
+
+| Файл                   | Назначение                   |
+| ---------------------- | ---------------------------- |
+| `.planning/PROJECT.md` | Постоянный контекст продукта |
+| `.planning/brief.md`   | Задача текущей сессии        |
+| `.planning/state.md`   | Итог волны (3–5 строк)       |
+| `.planning/plan.md`    | План L/XL                    |
+
+Команды Cursor: `/brief`, `/wave-done`, `/verify`; в DS Harness команд нет — тот же смысл по просьбе, шаблоны в `.cursor/commands`.
+
+## MCP
+
+См. `90`. Лимиты — `07`.
+
+**Figma (вёрстка секции):** лимиты — `07`, процедура и REST — `09-figma-rest`.
+
+**Browser MCP** — только по явному запросу пользователя; не для Verify класса **M** (`04`).
+
+**Nuxt/context7** — точечный запрос; не `list-documentation-pages` без node-id/docs-path.

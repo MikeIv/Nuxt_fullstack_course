@@ -1,0 +1,23 @@
+@use 'sass:map';
+
+/* Слои (снизу вверх): шапка, выпадашки, модалка, тосты. */
+$z-layers: (
+  'default': 1,
+  'pattern': -1,
+  'header': 100,
+  'dropdown': 200,
+  'modal': 1000,
+  'toast': 1100,
+);
+
+@function z($name) {
+  $v: map.get($z-layers, $name);
+
+  @if not $v {
+    @warn "Неизвестный слой z-index: #{$name}";
+
+    @return null;
+  }
+
+  @return $v;
+}

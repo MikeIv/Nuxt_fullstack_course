@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+# Цвета в дочерних процессах (ESLint, Prettier, …)
+export FORCE_COLOR="${FORCE_COLOR:-1}"
+
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+cd "$ROOT" || exit 1
+
+exec node scripts/pre-commit.mjs

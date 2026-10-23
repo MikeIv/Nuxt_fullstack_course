@@ -1,0 +1,76 @@
+@use '../variables/base-font-size' as size;
+@use '../tools/functions' as *;
+@use '../tools/mixins' as *;
+
+html {
+  min-height: 100dvh;
+  font-size: size.$base-font-size;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  font-family: var(--fs-font-sans);
+  font-size: var(--fs-text-body-size);
+  color: var(--fs-color-text);
+  background-color: var(--fs-color-bg);
+}
+
+body {
+  min-height: 100dvh;
+  line-height: var(--fs-text-body-line);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:focus-visible {
+    @include fs-focus-ring;
+  }
+}
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+}
+
+button:focus-visible {
+  @include fs-focus-ring;
+}
+
+:target {
+  scroll-margin-top: calc(var(--fs-header-height) + var(--fs-space-3));
+}
+
+::selection {
+  color: var(--fs-color-black);
+  background-color: var(--fs-color-beige);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

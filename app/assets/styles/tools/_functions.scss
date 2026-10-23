@@ -1,0 +1,9 @@
+@use 'sass:math';
+@use '../variables/base-font-size' as size;
+
+/* px (без единицы, как в макете) → rem от $base-font-size */
+@function rem($px) {
+  $base: math.div(size.$base-font-size, 1px);
+
+  @return math.div($px, $base) * 1rem;
+}

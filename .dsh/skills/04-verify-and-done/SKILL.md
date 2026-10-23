@@ -1,0 +1,74 @@
+---
+name: 04-verify-and-done
+description: Verify, security (Nuxt/Nitro), code-review — чеклист «готово». Правило процесса — загружай, когда задача доходит до этой фазы или темы.
+---
+
+<!-- Сгенерировано из .cursor/rules/04-verify-and-done.mdc скриптом .cursor/sync-rules.mjs -->
+
+# Verify
+
+## Перед «готово»
+
+- [ ] brief / план
+- [ ] проверки по классу (ниже)
+- [ ] тесты — по политике (ниже)
+- [ ] UI — при изменении UI: сверка с кадром Figma (MCP screenshot/context), если волна про макет
+- [ ] **Browser MCP** — не по умолчанию; класс **M**: lint/typecheck + curl/HTML или «проверьте в dev»; browser — только если пользователь явно попросил
+- [ ] Security (ниже)
+- [ ] нет `console.log` / мёртвого кода
+
+## Тесты
+
+- **S/M** без новой бизнес-логики — не требуются
+- **M+** API/auth/business logic — smoke или unit, если инфраструктура есть
+- **L+** — тест или явная строка в отчёте «нет тестов: …» (в шаблоне тест-скриптов нет)
+- Проверки — скриптами проекта, если они есть (`pnpm test` / `pnpm test:component`); скрипта нет — так и сказать в отчёте
+- Падение не всегда видно в сводке: unhandled rejection в чужом рендере роняет прогон (exit 1), но не красит assert — смотреть полный вывод
+- Перед пушем проверки запускает хук проекта (`.husky/pre-push` → `scripts/pre-push.mjs`): `pnpm lint:all`; `--no-verify` — только осознанно
+
+## Security (Nuxt / Nitro)
+
+- [ ] секреты не в diff; `.env` не в git; ключи через `runtimeConfig`
+- [ ] `NUXT_PUBLIC_*` — только публичные ключи (`apiBase`)
+- [ ] `server/api/*`: валидация `readBody()` / `getQuery()`; ошибки без токенов и stack trace наружу
+- [ ] composables с HTTP: нормализация ответа; ошибки без токенов в UI
+- [ ] API-типы в `shared/types/`
+- [ ] `v-html` — санитизация
+- [ ] auth/roles — по согласованию (`00`)
+- [ ] HTTP: `useApi` / `useApiFetch` / `serverApi`, не ручной `baseURL`
+
+## Проверки по классу
+
+| Класс  | Минимум                                      |
+| ------ | -------------------------------------------- |
+| **S**  | lint (`pnpm lint`; в Cursor — ReadLints)     |
+| **M**  | `pnpm lint:all` **один раз**; при API/типах — `pnpm typecheck`; тесты проекта — если есть; без browser MCP |
+| **L+** | `pnpm verify` + `pnpm build`; code-review    |
+
+Не «готово», пока обязательные проверки не пройдены (если агент может запустить).
+
+## Code-review
+
+| Триггер                           | Режим                                               |
+| --------------------------------- | --------------------------------------------------- |
+| Запрос, `/code-review`            | Полный протокол — `.cursor/commands/code-review.md` |
+| Verify **L+**                     | Полный                                              |
+| **M** + HTTP composables или auth | Mini: CRITICAL/HIGH из severity ниже                |
+
+Severity: **CRITICAL** секреты, XSS, ввод в `server/api`, auth · **HIGH** stack, raw `fetch`, `any` · **MEDIUM** a11y, edge · **LOW** стиль.
+
+**Платформа ревью — по remote проекта** (GitLab MR или GitHub PR). Коммиты — только по просьбе; без push/`--no-verify` без разрешения.
+
+### Режим local
+
+`git diff --name-only HEAD` → файлы целиком.
+
+### Режим GitLab MR
+
+Номер / URL MR или PR: инструмент — по доступным серверам (GitLab — GitKraken User-расширение; `glab` и MCP `review-merge-request` в шаблоне не гарантированы). L+: зелёный pipeline до APPROVE.
+
+**L+ продукт:** spec · quality · consistency с `nuxt-template.mdc` / `useApi`.
+
+## Не готово
+
+CRITICAL/HIGH открыты; pipeline fail (L+); lint/build fail; открытые вопросы Discuss.

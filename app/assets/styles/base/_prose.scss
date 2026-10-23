@@ -1,0 +1,154 @@
+@use '../tools' as *;
+
+/*
+ * Длинный текст урока приходит с сервера готовым HTML (v-html), поэтому стили
+ * живут глобально в классе `.fs-prose`, а не в CSS Modules компонента.
+ */
+.fs-prose {
+  @include fs-text;
+  line-height: var(--fs-text-read-line);
+  color: var(--fs-color-text);
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    @include fs-h2;
+    margin: var(--fs-space-6) 0 var(--fs-space-3);
+    scroll-margin-top: calc(var(--fs-header-height) + var(--fs-space-3));
+  }
+
+  h3 {
+    @include fs-h3;
+    margin: var(--fs-space-5) 0 var(--fs-space-2);
+    scroll-margin-top: calc(var(--fs-header-height) + var(--fs-space-3));
+  }
+
+  p {
+    margin: 0 0 var(--fs-space-3);
+  }
+
+  ul,
+  ol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-space-1);
+    margin: 0 0 var(--fs-space-3);
+    padding-left: rem(22);
+  }
+
+  li > ul,
+  li > ol {
+    margin-top: var(--fs-space-1);
+    margin-bottom: 0;
+  }
+
+  a {
+    border-bottom: rem(1) solid var(--fs-color-beige);
+    transition: border-color 0.15s ease;
+
+    &:hover {
+      border-color: var(--fs-color-black);
+    }
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  code {
+    padding: rem(1) rem(5);
+    border: rem(1) solid var(--fs-color-line);
+    border-radius: var(--fs-radius-sm);
+    font-family: var(--fs-font-mono);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+    background-color: var(--fs-color-surface);
+  }
+
+  pre {
+    margin: 0 0 var(--fs-space-3);
+    padding: var(--fs-space-2);
+    border-radius: var(--fs-radius-lg);
+    background-color: var(--fs-color-code-bg);
+    overflow-x: auto;
+
+    code {
+      padding: 0;
+      border: 0;
+      color: var(--fs-color-code-text);
+      background: transparent;
+    }
+  }
+
+  blockquote {
+    margin: 0 0 var(--fs-space-3);
+    padding-left: var(--fs-space-2);
+    border-left: rem(2) solid var(--fs-color-beige);
+    color: var(--fs-color-gray);
+  }
+
+  table {
+    width: 100%;
+    margin: 0 0 var(--fs-space-3);
+    border-collapse: collapse;
+    @include fs-text-sm;
+  }
+
+  th,
+  td {
+    padding: var(--fs-space-1) var(--fs-space-2);
+    border-bottom: rem(1) solid var(--fs-color-line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: 700;
+    background-color: var(--fs-color-surface-muted);
+  }
+
+  th code,
+  td code {
+    font-size: 0.95em;
+  }
+
+  hr {
+    height: rem(1);
+    margin: var(--fs-space-5) 0;
+    border: 0;
+    background-color: var(--fs-color-line);
+  }
+}
+
+/*
+ * Блок кода: HTML приходит от shiki (inline-стили темы), здесь — только геометрия.
+ * Класс глобальный, потому что содержимое приходит через `v-html`.
+ */
+.fs-codeblock {
+  pre {
+    margin: 0;
+    padding: var(--fs-space-2);
+    font-family: var(--fs-font-mono);
+    font-size: rem(12.5);
+    line-height: 1.6;
+    overflow-x: auto;
+    tab-size: 2;
+  }
+
+  code {
+    font-family: inherit;
+  }
+
+  @include from-tablet {
+    pre {
+      padding: var(--fs-space-3);
+      font-size: rem(13.5);
+    }
+  }
+}

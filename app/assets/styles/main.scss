@@ -1,0 +1,10 @@
+/* Точка входа глобальных стилей (порядок: токены → база → длинный текст). */
+@use 'variables/colors';
+@use 'variables/typography';
+@use 'variables/spacing';
+@use 'variables/rounding';
+@use 'variables/grid';
+@use 'base/fonts';
+@use 'base/global';
+@use 'base/prose';
+@use 'base/a11y';

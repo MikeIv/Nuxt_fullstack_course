@@ -1,0 +1,22 @@
+@use '../tools/functions' as *;
+@use '../tools/mixins' as *;
+
+/* Сетка: 2 колонки на телефоне, 12 с планшета-десктопа. Колонки — minmax(0, 1fr). */
+:root {
+  --fs-grid-columns: 2;
+  --fs-grid-gutter: var(--fs-space-2);
+  --fs-grid-margin: var(--fs-space-2);
+  --fs-grid-content-max: #{rem(1440)};
+  --fs-grid-read-max: #{rem(760)};
+  --fs-grid-template: repeat(var(--fs-grid-columns), minmax(0, 1fr));
+
+  @include from-tablet {
+    --fs-grid-margin: #{rem(20)};
+  }
+
+  @include from-desktop {
+    --fs-grid-columns: 12;
+    --fs-grid-gutter: var(--fs-space-3);
+    --fs-grid-margin: var(--fs-space-5);
+  }
+}

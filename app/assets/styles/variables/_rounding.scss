@@ -1,0 +1,13 @@
+@use '../tools/functions' as *;
+
+/* Радиусы — шкала под карточки и пилюли. */
+:root {
+  --fs-radius-sm: #{rem(4)};
+  --fs-radius-md: #{rem(8)};
+  --fs-radius-lg: #{rem(12)};
+  --fs-radius-xl: #{rem(16)};
+  --fs-radius-2xl: #{rem(24)};
+  --fs-radius-3xl: #{rem(32)};
+  --fs-radius-4xl: #{rem(60)};
+  --fs-radius-pill: #{rem(9999)};
+}

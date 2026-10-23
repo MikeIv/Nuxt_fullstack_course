@@ -1,0 +1,65 @@
+/* Доступность и печать — глобальные правила, общие для всех страниц. */
+
+/*
+ * Уважаем системную настройку: любые переходы и анимации сводятся к нулю.
+ * Это не «косметика»: движение — самый частый триггер для людей с вестибулярными
+ * расстройствами, и Nuxt-приложения с анимациями часто об этом забывают.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Печать: основной сценарий — распечатать playbook и карточки.
+ * Навигация и служебные блоки помечены `data-print="hide"` в разметке.
+ */
+@media print {
+  @page {
+    margin: 16mm 14mm;
+  }
+
+  body {
+    color: #000;
+    background-color: #fff;
+  }
+
+  [data-print='hide'] {
+    display: none !important;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  /* Внешние ссылки при печати теряют адрес — печатаем его рядом с текстом. */
+  a[href^='http']::after {
+    font-size: 0.85em;
+    word-break: break-all;
+    content: ' (' attr(href) ')';
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  pre,
+  blockquote,
+  table,
+  figure {
+    break-inside: avoid;
+  }
+
+  .fs-prose a[href^='#']::after {
+    content: '';
+  }
+}

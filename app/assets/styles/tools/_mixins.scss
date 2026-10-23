@@ -1,0 +1,75 @@
+@use 'functions' as *;
+@use '../variables/resolutions' as bp;
+
+/** ≥ 576px. База для узкого телефона — стили без миксина. */
+@mixin from-mobile {
+  @media (min-width: #{bp.$mobile}) {
+    @content;
+  }
+}
+
+@mixin from-tablet {
+  @media (min-width: #{bp.$tablet}) {
+    @content;
+  }
+}
+
+@mixin from-desktop {
+  @media (min-width: #{bp.$desktop}) {
+    @content;
+  }
+}
+
+@mixin from-wide {
+  @media (min-width: #{bp.$wide}) {
+    @content;
+  }
+}
+
+/** Горизонтальные поля страницы: сетка + максимальная ширина контента. */
+@mixin fs-page {
+  width: 100%;
+  max-width: var(--fs-grid-content-max);
+  margin-inline: auto;
+  padding-inline: var(--fs-grid-margin);
+}
+
+/** Колонка чтения: уже страницы, по центру. */
+@mixin fs-read-column {
+  width: 100%;
+  max-width: var(--fs-grid-read-max);
+  padding-inline: var(--fs-grid-margin);
+}
+
+@mixin fs-grid {
+  display: grid;
+  grid-template-columns: var(--fs-grid-template);
+  column-gap: var(--fs-grid-gutter);
+}
+
+/** Обводка фокуса: одна на всё приложение. */
+@mixin fs-focus-ring($color: var(--fs-color-black), $offset: rem(2)) {
+  outline: rem(2) solid $color;
+  outline-offset: $offset;
+}
+
+@mixin fs-line-clamp($lines) {
+  display: -webkit-box;
+  min-height: #{$lines}lh;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
+}
+
+/** Скрытый от глаз, но доступный скринридеру текст. */
+@mixin fs-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

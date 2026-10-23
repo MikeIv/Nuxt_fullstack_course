@@ -1,0 +1,21 @@
+node_modules
+.pnpm-store
+.nuxt
+.nitro
+.data
+.cache
+.output
+dist
+pnpm-lock.yaml
+coverage
+.dsh
+AGENTS.md
+.idea
+shared/data/sources.generated.ts
+
+# Контент курса — источник, который не форматируем инструментами приложения.
+class
+research
+README.md
+.planning
+.cursor/rules
