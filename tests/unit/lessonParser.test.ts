@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -87,6 +87,24 @@ describe('parseLesson', () => {
     const html = JSON.stringify(lesson.blocks)
 
     expect(html).not.toContain('<!--')
+  })
+
+  it('разбирает все двенадцать уроков курса', () => {
+    const dirs = readdirSync(path.join(root, 'class'), { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort()
+
+    expect(dirs).toHaveLength(12)
+
+    for (const dir of dirs) {
+      const lesson = parse(dir, Number(dir.slice(0, 2)))
+
+      expect(lesson.idea, `${dir}: идея в трёх строках`).toHaveLength(3)
+      expect(lesson.practice.steps.length, `${dir}: шаги практики`).toBeGreaterThan(0)
+      expect(lesson.rule, `${dir}: правило в playbook`).not.toBe('')
+      expect(lesson.sources.length, `${dir}: источники`).toBeGreaterThan(0)
+    }
   })
 
   it('не падает на минимальном markdown без практики и правила', () => {

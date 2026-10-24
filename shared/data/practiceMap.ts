@@ -10,8 +10,14 @@ import type { PracticeCheck } from '#shared/types/practice'
  * - `expect: 'absent'` — проверка на отсутствие: совпадение значит нарушение;
  * - `manual` — то, что машинно не проверить, отметка ставится руками.
  *
- * Пути сверены с реальной структурой проекта: `server/{api,utils,middleware,error-handler.ts,
- * auth.config.ts}`, `shared/{types,validations,config,utils}`, `prisma`, `app/{composables,pages}`.
+ * Пути сверены с реальной структурой проекта: `server/{api,utils,middleware,plugins,routes,
+ * error-handler.ts, auth.config.ts}`, `shared/{types,validations,config,utils}`, `prisma`,
+ * `app/{composables,pages,stores}`, `docker-compose.yml`, `.gitlab-ci.yml`.
+ *
+ * Сверка 2026-10: проект достроен (админка блоков, загрузка медиа, Better Auth), поэтому
+ * проверки по медиа, схемам контента и базе добавлены, а те, что машинно врут на новом
+ * коде, заменены на `manual` с объяснением. `missing` — факт «в проекте этого нет», а не
+ * ошибка курса: так видно, что ещё не сделано.
  */
 export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
   'two-runtimes': [
@@ -52,10 +58,13 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
     {
       id: 'context-read',
       title: 'Обработчик читает event.context',
-      kind: 'grep',
-      path: 'server/api',
-      pattern: 'event\\.context',
-      note: 'Если контекст никто не читает, middleware работает вхолостую.',
+      kind: 'manual',
+      path: '',
+      note:
+        'В проекте практики контекст заполняет `server/middleware/auth.ts`, а обработчики ' +
+        'берут сессию через `requireUserSession`: чтение контекста спрятано в хелпере, машинно ' +
+        'его не отличить от записи. Глазами: если контекст только пишут и никто не читает — ' +
+        'middleware лишний.',
     },
     {
       id: 'helpers-from-event',
@@ -115,6 +124,16 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       pattern: 'statusMessage|statusText',
       note: 'h3 знает оба имени: `statusText` — старый алиас `statusMessage`.',
     },
+    {
+      id: 'error-mapping',
+      title: 'Ошибка домена переводится в конверт в одном месте',
+      kind: 'grep',
+      path: 'server/utils/errorMapping.ts',
+      pattern: 'statusCode',
+      note:
+        'Zod, Prisma и h3-ошибка сводятся к одной форме: обработчики не собирают ответ ' +
+        'каждый по-своему.',
+    },
   ],
   'state-server-vs-client': [
     {
@@ -155,6 +174,22 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       kind: 'file',
       path: 'server/utils/validation.ts',
     },
+    {
+      id: 'content-schemas',
+      title: 'Схемы контента объявлены до обработчиков',
+      kind: 'grep',
+      path: 'shared/validations/content.ts',
+      pattern: 'contentSchemas|z\\.object',
+      note: 'Одна схема на запись блока и на его чтение — иначе админка и API расходятся.',
+    },
+    {
+      id: 'media-limits',
+      title: 'Лимиты загрузки объявлены в shared',
+      kind: 'grep',
+      path: 'shared/validations/media.ts',
+      pattern: 'MEDIA_MAX_BYTES',
+      note: 'Размер и типы файлов — общий контракт сервера и подсказки в UI.',
+    },
   ],
   'database-from-nitro': [
     {
@@ -177,6 +212,16 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       pattern: 'prisma\\.',
       note: 'Клиент не создаётся в обработчиках: иначе пул соединений вырастет с числом запросов.',
     },
+    {
+      id: 'local-db',
+      title: 'Локальная база поднимается контейнером',
+      kind: 'grep',
+      path: 'docker-compose.yml',
+      pattern: 'postgres',
+      note:
+        'Свой Postgres в docker плюс shadow-база для `prisma migrate dev` — dev-окружение ' +
+        'не зависит от машины. На serverless так не выйдет: там база внешняя.',
+    },
   ],
   'auth-session': [
     {
@@ -190,7 +235,19 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       title: 'Роль проверяется на сервере',
       kind: 'grep',
       path: 'server/utils/requireRole.ts',
-      pattern: 'requireUserSession|createError|statusCode',
+      pattern: 'requireUserSession\\(|requireRole\\(',
+      note:
+        'Проверка роли — отдельный хелпер, который бросает 401/403 до выполнения обработчика. ' +
+        'Одна и та же строка работает и на `nuxt-auth-utils`, и на Better Auth: имена хелперов ' +
+        'совпадают.',
+    },
+    {
+      id: 'auth-module',
+      title: 'Auth-модуль подключён конфигом',
+      kind: 'grep',
+      path: 'nuxt.config.ts',
+      pattern: 'better-auth|auth-utils',
+      note: 'Модуль выбирается один раз и приносит серверные хелперы сессии.',
     },
     {
       id: 'auth-config',
@@ -223,11 +280,21 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       pattern: 'defineCachedEventHandler|cachedFunction',
     },
     {
+      id: 'cache-headers',
+      title: 'Неизменяемые файлы отдаются с долгим cache-control',
+      kind: 'grep',
+      path: 'server',
+      pattern: 'cache-control',
+      note:
+        'В проекте практики `routeRules` пока нет: кеш живёт заголовком на раздаче загрузок. ' +
+        'Персональные ручки при этом остаются без кеша — это и есть третий уровень.',
+    },
+    {
       id: 'personal-no-cache',
       title: 'Персональные роуты живут без кеша',
       kind: 'manual',
       path: '',
-      note: 'Глазами: в routeRules нет swr/isr для путей, которые читают cookie и сессию.',
+      note: 'Глазами: у путей, которые читают cookie или сессию, нет ни `swr`/`isr`, ни `defineCachedEventHandler`.',
     },
   ],
   'storage-layer': [
@@ -237,6 +304,9 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       kind: 'grep',
       path: 'server',
       pattern: 'useStorage\\(',
+      note:
+        'В проекте практики драйвера нет: загрузки пишутся своим кодом на `node:fs`. Это ' +
+        'осознанный выбор под `node-server` — но он и есть цена привязки к диску.',
     },
     {
       id: 'storage-config',
@@ -246,13 +316,23 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       pattern: 'storage\\s*:',
     },
     {
-      id: 'no-fs-in-handler',
-      title: 'В обработчиках нет прямого fs/path',
+      id: 'uploads-dir',
+      title: 'Каталог загрузок вынесен из public/',
       kind: 'grep',
-      path: 'server/api',
-      pattern: "from 'node:(?:fs|fs/promises|path)'",
-      expect: 'absent',
-      note: 'Совпадение = деплой привязан к рантайму с локальным диском.',
+      path: 'nuxt.config.ts',
+      pattern: 'uploadsDir',
+      note:
+        '`uploads/` вне `public/` переживает пересборку `.output`. Файлы отдаёт nitro-роут ' +
+        '`server/routes/uploads/[...path].get.ts`, а не статика.',
+    },
+    {
+      id: 'media-utils',
+      title: 'Запись файлов живёт в server/utils, а не в обработчике',
+      kind: 'file',
+      path: 'server/utils/media.ts',
+      note:
+        'Граница та же, что у Prisma-клиента: обработчик не трогает `fs` и `path` напрямую. ' +
+        'Перенос на S3 меняет один файл вместо всех ручек загрузки.',
     },
   ],
   'long-tasks': [
@@ -261,6 +341,9 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       title: 'Долгие задачи вынесены в server/tasks',
       kind: 'dir',
       path: 'server/tasks',
+      note:
+        'В проекте практики задач пока нет: `missing` здесь — «ещё не сделано», а не поломка ' +
+        'курса. Практика урока делается в своём проекте.',
     },
     {
       id: 'run-task',
@@ -268,6 +351,7 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       kind: 'grep',
       path: 'server',
       pattern: 'runTask\\(',
+      note: 'Ожидание внутри обработчика держит соединение и упирается в таймаут платформы.',
     },
     {
       id: 'stream-or-poll',
@@ -300,6 +384,14 @@ export const PRACTICE_MAP: Record<string, PracticeCheck[]> = {
       pattern: 'process\\.env',
       expect: 'absent',
       note: 'В app/ переменные окружения не читают: только runtimeConfig.',
+    },
+    {
+      id: 'ci-pipeline',
+      title: 'Сборка и деплой идут пайплайном',
+      kind: 'grep',
+      path: '.gitlab-ci.yml',
+      pattern: '^verify:|^build:|^deploy:',
+      note: 'Секреты живут в переменных CI, а не в репозитории; артефакт — `.output`.',
     },
   ],
 }

@@ -133,6 +133,14 @@ export default defineEventHandler(async () => {
 
 Критерий простой: если запросами занимается человек, который любит SQL, ORM будет мешать; если миграции и типы важнее плана запроса, ORM экономит недели.
 
+## Как это в проекте практики
+
+`server/utils/prisma.ts` создаёт один клиент на процесс: пул `pg` и Prisma 7 с driver
+adapter живут в модуле, а в dev клиент дополнительно кладётся в `globalThis`, чтобы HMR
+не плодил пулы. Обработчики клиент только импортируют. Postgres для dev поднимается
+контейнером (`docker-compose.yml`, `pnpm db:up`), рядом — shadow-база для
+`prisma migrate dev`.
+
 ## Попробуй · Deep Focus · 15 мин
 
 1. Вынесите клиент в `server/utils/db.ts` в форме ленивого `clientPromise`, как выше.

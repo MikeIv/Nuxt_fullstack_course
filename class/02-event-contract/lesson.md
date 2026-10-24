@@ -162,6 +162,13 @@ export default defineEventHandler(() => {
 роута, и на клиенте `useFetch('/api/foo')` получает `unknown`. Тихо, без ошибки — просто
 пропадает автодополнение, и через месяц в компонент приезжает поле, которого нет.
 
+## Как это в проекте практики
+
+`server/middleware/auth.ts` кладёт сессию в `event.context.session` и `event.context.user`,
+а обработчики её оттуда не читают: `server/utils/requireRole.ts` берёт пользователя через
+`requireUserSession(event)`. Канал тот же, просто спрятан в хелпер — `event.context`
+остаётся единственным местом, где middleware и обработчик встречаются.
+
 ## Попробуй · Quick Win · 10 мин
 
 1. Создайте `server/middleware/trace.ts`, который кладёт в контекст время старта:
