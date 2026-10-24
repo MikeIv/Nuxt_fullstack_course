@@ -1,10 +1,7 @@
 /**
  * `GET /api/lessons` — каталог курса: арки, уроки, суммарное время.
- * Ответ мемоизируется на процесс: тексты уроков меняются только вместе со сборкой.
+ *
+ * Кеш ответа живёт в `routeRules` и только в проде: в dev его нет, иначе правка
+ * `class/**` не видна до перезапуска сервера.
  */
-export default defineCachedEventHandler(() => getLessonIndex(), {
-  name: 'lessons-index',
-  getKey: () => 'index',
-  maxAge: 60 * 60,
-  swr: true,
-})
+export default defineEventHandler(() => getLessonIndex())

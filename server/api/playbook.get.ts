@@ -1,9 +1,5 @@
 /**
  * `GET /api/playbook` — все правила курса одним списком: то, что перечитывают через месяц.
+ * Кеш — `routeRules` в проде; в dev его нет, чтобы правки `playbook.md` были видны сразу.
  */
-export default defineCachedEventHandler(() => getPlaybook(), {
-  name: 'playbook',
-  getKey: () => 'playbook',
-  maxAge: 60 * 60,
-  swr: true,
-})
+export default defineEventHandler(() => getPlaybook())

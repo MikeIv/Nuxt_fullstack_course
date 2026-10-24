@@ -1,27 +1,21 @@
 /**
  * `GET /api/lessons/[slug]` — урок целиком: блоки, оглавление, практика, источники.
- * Ключ кеша — только существующий slug из каталога, поэтому мусорные пути не плодят записи.
+ *
+ * Кеш ответа живёт в `routeRules` и только в проде: в dev его нет, иначе правка
+ * `class/**` не видна до перезапуска сервера.
  */
-export default defineCachedEventHandler(
-  async (event) => {
-    const slug = getRouterParam(event, 'slug')
+export default defineEventHandler(async (event) => {
+  const slug = getRouterParam(event, 'slug')
 
-    if (!slug) {
-      throw createError({ statusCode: 400, statusText: 'Не указан урок' })
-    }
+  if (!slug) {
+    throw createError({ statusCode: 400, statusText: 'Не указан урок' })
+  }
 
-    const lesson = await getLessonDetail(slug)
+  const lesson = await getLessonDetail(slug)
 
-    if (!lesson) {
-      throw createError({ statusCode: 404, statusText: 'Урок не найден' })
-    }
+  if (!lesson) {
+    throw createError({ statusCode: 404, statusText: 'Урок не найден' })
+  }
 
-    return lesson
-  },
-  {
-    name: 'lesson-detail',
-    getKey: (event) => getRouterParam(event, 'slug') ?? 'unknown',
-    maxAge: 60 * 60,
-    swr: true,
-  },
-)
+  return lesson
+})
